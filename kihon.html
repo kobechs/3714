@@ -1,0 +1,97 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="css/style.css">
+    <title>基本情報技術者試験</title>
+    <style>
+        #resultImage {
+            display: none; 
+        }
+    </style>
+    <script>
+        let no = 0;
+        let score = 0;
+        const wordList = [
+            { japanese: "どこかのWEBから流出したパスワードのリストを用いて、他のWEBサイトでログインを試行する", ans: "キ" },
+            { japanese: "システムに障害が発生した時でも、常に安全側にシステムを制御する", ans: "オ" },
+            { japanese: "ゼロで除算を実行したことによる割込み", ans: "ア" },
+            { japanese: "一定の時間内にシステムによって処理される仕事量を表す用語はどれか", ans: "ク" },
+            { japanese: "スーパースピードと呼ばれる5Gビット/秒の転送モードを持つシリアルインターフェース", ans: "カ" },
+        ];
+
+        function showQuestion() {
+            if (no < wordList.length) {
+                document.getElementById("question").textContent = wordList[no].japanese;
+                document.getElementById("progress").textContent = `問題 ${no + 1}/${wordList.length}`;
+                document.getElementById("answer").value = ""; 
+            } else {
+                displayResult();
+            }
+        }
+
+        function judge() {
+            const answer = document.getElementById("answer").value;
+            const feedback = document.getElementById("feedback");
+            if (answer === wordList[no].ans) {
+                feedback.textContent = "正解です！";
+                feedback.style.color = "green";
+                score++;
+            } else {
+                feedback.textContent = "残念！不正解です。";
+                feedback.style.color = "red";
+            }
+            no++;
+            setTimeout(() => {
+                feedback.textContent = ""; 
+                showQuestion();
+            }, 1000);
+        }
+
+        function displayResult() {
+            document.getElementById("question").textContent = `スコア: ${score}/${wordList.length}`;
+            document.getElementById("answerForm").style.display = "none"; 
+            const resultMessage = document.getElementById("resultMessage");
+            const resultImage = document.getElementById("resultImage");
+            resultImage.style.display = "block"; 
+            if (score === wordList.length) {
+                resultMessage.textContent = "全問正解！よくできました！";
+                resultImage.src = "gold.png";
+            } else if (score >= wordList.length * 0.6) {
+                resultMessage.textContent = "惜しい！あともう一歩でした！";
+                resultImage.src = "silver.png";
+            } else {
+                resultMessage.textContent = "もう少しがんばりましょう。";
+                resultImage.src = "brozen.png";
+            }
+        }
+    </script>
+</head>
+<body onload="showQuestion()">
+    <nav>
+        <a href="index.html">
+            <div class="material-icons">ホームに戻る←</div>
+        </a>
+        <h1 id="namae">基本情報技術者試験</h1>
+    </nav>
+    <p id="progress"></p>
+    <div id="question"></div>
+    <div id="answerForm">
+        <select id="answer">
+            <option value="ア">ア.内部割込み</option>
+            <option value="イ">イ.外部割込み</option>
+            <option value="ウ">ウ.1000BASE-T</option>
+            <option value="エ">エ.ピクチャパスワード</option>
+            <option value="オ">オ.フェールセーフ</option>
+            <option value="カ">カ.USB3.0</option>
+            <option value="キ">キ.パスワードリスト攻撃</option>
+            <option value="ク">ク.スループット</option>
+        </select>
+        <button onclick="judge()">OK</button>
+    </div>
+    <p id="feedback"></p>
+    <p id="resultMessage"></p>
+    <img id="resultImage" src="" alt="結果画像">
+</body>
+</html>

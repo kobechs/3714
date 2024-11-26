@@ -1,0 +1,75 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+nav {
+    background-color: #149e3d;
+    padding: 20px;
+    color: white;
+}
+
+#menu {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 20px 0;
+}
+
+button {
+    background-color: #008CBA;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 10px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #005f75;
+}
+
+@media screen and (max-width: 600px) {
+    button {
+        width: 100%;
+        margin: 10px 0;
+    }
+}
+select{
+    font-size: large;
+    width: 320px;
+
+}
+.material-icons{
+    color: black;
+    text-align: left;
+}
+.home{
+    font-size: 50px;
+}
+label{
+    width: 100px;
+}
+#question {
+    font-size: 1.5em; 
+    font-weight: bold; 
+    margin: 20px 0; 
+    text-align: center; 
+}
+#resultImage {
+    display: none; 
+    margin: 20px auto; 
+    display: block; 
+    text-align: center; 
+}
+
+#resultMessage {
+    text-align: center; 
+}

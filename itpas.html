@@ -1,0 +1,97 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="css/style.css">
+    <title>ITパスポート試験</title>
+    <style>
+        #resultImage {
+            display: none; 
+        }
+    </style>
+    <script>
+        let no = 0;
+        let score = 0;
+        const wordList = [
+            { japanese: "バイオメトリクス認証において本人の身体的特徴は　＿＿＿＿　が難しい。", ans: "ア" },
+            { japanese: "インターネットの技術を利用して構築されたインターネット", ans: "カ" },
+            { japanese: "ディープラーニングなどで用いられる、脳神経系の仕組みをコンピュータで模したモデル", ans: "ウ" },
+            { japanese: "本人の指紋で認証することをなんというか", ans: "ク" },
+            { japanese: "タッチパネルの複数ポイントに触れて操作する入力方式", ans: "オ" },
+        ];
+
+        function showQuestion() {
+            if (no < wordList.length) {
+                document.getElementById("question").textContent = wordList[no].japanese;
+                document.getElementById("progress").textContent = `問題 ${no + 1}/${wordList.length}`;
+                document.getElementById("answer").value = ""; 
+            } else {
+                displayResult();
+            }
+        }
+
+        function judge() {
+            const answer = document.getElementById("answer").value;
+            const feedback = document.getElementById("feedback");
+            if (answer === wordList[no].ans) {
+                feedback.textContent = "正解です！";
+                feedback.style.color = "green";
+                score++;
+            } else {
+                feedback.textContent = "残念！不正解です。";
+                feedback.style.color = "red";
+            }
+            no++;
+            setTimeout(() => {
+                feedback.textContent = ""; 
+                showQuestion();
+            }, 1000);
+        }
+
+        function displayResult() {
+            document.getElementById("question").textContent = `スコア: ${score}/${wordList.length}`;
+            document.getElementById("answerForm").style.display = "none"; 
+            const resultMessage = document.getElementById("resultMessage");
+            const resultImage = document.getElementById("resultImage");
+            resultImage.style.display = "block"; 
+            if (score === wordList.length) {
+                resultMessage.textContent = "全問正解！よくできました！";
+                resultImage.src = "gold.png";
+            } else if (score >= wordList.length * 0.6) {
+                resultMessage.textContent = "惜しい！あともう一歩でした！";
+                resultImage.src = "silver.png";
+            } else {
+                resultMessage.textContent = "もう少しがんばりましょう。";
+                resultImage.src = "brozen.png";
+            }
+        }
+    </script>
+</head>
+<body onload="showQuestion()">
+    <nav>
+        <a href="index.html">
+            <div class="material-icons">ホームに戻る←</div>
+        </a>
+        <h1 id="namae">ITパスポート試験</h1>
+    </nav>
+    <p id="progress"></p>
+    <div id="question"></div>
+    <div id="answerForm">
+        <select id="answer">
+            <option value="ア">ア.判別</option>
+            <option value="イ">イ.エクストラネット</option>
+            <option value="ウ">ウ.ニューラルネットワーク</option>
+            <option value="エ">エ.偽造</option>
+            <option value="オ">オ.マルチタッチ</option>
+            <option value="カ">カ.イントラネット</option>
+            <option value="キ">キ.ユビキタスネットワーク</option>
+            <option value="ク">ク.バイオメトリクス認証</option>
+        </select>
+        <button onclick="judge()">OK</button>
+    </div>
+    <p id="feedback"></p>
+    <p id="resultMessage"></p>
+    <img id="resultImage" src="" alt="結果画像">
+</body>
+</html>

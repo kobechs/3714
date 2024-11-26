@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="css/style.css">
+    <title>情報セキュリティマネジメント</title>
+    <style>
+        #resultImage {
+            display: none; 
+        }
+    </style>
+    <script>
+        let no = 0;
+        let score = 0;
+        const wordList = [
+            { japanese: "リスクの重大さを決定するために、算定されたリスクを与えられた基準と比較するプロセス", ans: "ウ" },
+            { japanese: "サーバーなどを監視し、セキュリティを侵害するような挙動を検知した場合管路者に通知するシステム。", ans: "カ" },
+            { japanese: "入室時や退出時に使われなかった認証でのIDカードを使用した再入場を許可しないシステム", ans: "イ" },
+            { japanese: "ICカード情報の解読などに対して物理的に情報を保護するための機能", ans: "エ" },
+            { japanese: "IPアドレスに対するMACアドレスの不正な対応関係を作り出す攻撃", ans: "オ" },
+        ];
+
+        function showQuestion() {
+            if (no < wordList.length) {
+                document.getElementById("question").textContent = wordList[no].japanese;
+                document.getElementById("progress").textContent = `問題 ${no + 1}/${wordList.length}`;
+                document.getElementById("answer").value = ""; 
+            } else {
+                displayResult();
+            }
+        }
+
+        function judge() {
+            const answer = document.getElementById("answer").value;
+            const feedback = document.getElementById("feedback");
+            if (answer === wordList[no].ans) {
+                feedback.textContent = "正解です！";
+                feedback.style.color = "green";
+                score++;
+            } else {
+                feedback.textContent = "残念！不正解です。";
+                feedback.style.color = "red";
+            }
+            no++;
+            setTimeout(() => {
+                feedback.textContent = ""; 
+                showQuestion();
+            }, 1000);
+        }
+
+        function displayResult() {
+            document.getElementById("question").textContent = `スコア: ${score}/${wordList.length}`;
+            document.getElementById("answerForm").style.display = "none"; 
+            const resultMessage = document.getElementById("resultMessage");
+            const resultImage = document.getElementById("resultImage");
+            resultImage.style.display = "block"; 
+            if (score === wordList.length) {
+                resultMessage.textContent = "全問正解！よくできました！";
+                resultImage.src = "gold.png";
+            } else if (score >= wordList.length * 0.6) {
+                resultMessage.textContent = "惜しい！あともう一歩でした！";
+                resultImage.src = "silver.png";
+            } else {
+                resultMessage.textContent = "もう少しがんばりましょう。";
+                resultImage.src = "brozen.png";
+            }
+        }
+    </script>
+</head>
+<body onload="showQuestion()">
+    <nav>
+        <a href="index.html">
+            <div class="material-icons">ホームに戻る←</div>
+        </a>
+        <h1 id="namae">情報セキュリティマネジメント</h1>
+    </nav>
+    <p id="progress"></p>
+    <div id="question"></div>
+    <div id="answerForm">
+        <select id="answer">
+            <option value="ア">ア.リスク分析</option>
+            <option value="イ">イ.アンチパスバック</option>
+            <option value="ウ">ウ.リスク評価</option>
+            <option value="エ">エ.耐タンパ性</option>
+            <option value="オ">オ.ARPスプーフィング</option>
+            <option value="カ">カ.IDS</option>
+            <option value="キ">キ.インターロックゲート</option>
+        </select>
+        <button onclick="judge()">OK</button>
+    </div>
+    <p id="feedback"></p>
+    <p id="resultMessage"></p>
+    <img id="resultImage" src="" alt="結果画像">
+</body>
+</html>

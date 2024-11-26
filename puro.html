@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="css/style.css">
+    <title>全商情報処理試験</title>
+    <style>
+        #resultImage {
+            display: none; 
+        }
+    </style>
+    <script>
+        let no = 0;
+        let score = 0;
+        const wordList = [
+            { japanese: "試作品を早い段階でユーザに提供し，ユーザの評価をもとに修正しながら開発を進めていく手法。", ans: "キ" },
+            { japanese: "コンピュータシステムに障害が発生してから，再び正常な状態に戻るまでの平均時間。", ans: "エ" },
+            { japanese: "一つのデータを2台以上のハードディスクに分散させて書き込みを行うことで，データの読み書きの速度を向上させるための技術。", ans: "ア" },
+            { japanese: "インターネット上で通信を行う際，コンピュータ機器などを識別するために一意に割り当てられたIPアドレス。", ans: "イ" },
+            { japanese: "広く一般に公開され，暗号化することができる公開鍵と，受信者のみが管理する秘密鍵を使用した暗号方式。", ans: "カ" },
+        ];
+
+        function showQuestion() {
+            if (no < wordList.length) {
+                document.getElementById("question").textContent = wordList[no].japanese;
+                document.getElementById("progress").textContent = `問題 ${no + 1}/${wordList.length}`;
+                document.getElementById("answer").value = ""; 
+            } else {
+                displayResult();
+            }
+        }
+
+        function judge() {
+            const answer = document.getElementById("answer").value;
+            const feedback = document.getElementById("feedback");
+            if (answer === wordList[no].ans) {
+                feedback.textContent = "正解です！";
+                feedback.style.color = "green";
+                score++;
+            } else {
+                feedback.textContent = "残念！不正解です。";
+                feedback.style.color = "red";
+            }
+            no++;
+            setTimeout(() => {
+                feedback.textContent = ""; 
+                showQuestion();
+            }, 1000);
+        }
+
+        function displayResult() {
+            document.getElementById("question").textContent = `スコア: ${score}/${wordList.length}`;
+            document.getElementById("answerForm").style.display = "none"; 
+            const resultMessage = document.getElementById("resultMessage");
+            const resultImage = document.getElementById("resultImage");
+            resultImage.style.display = "block"; 
+            if (score === wordList.length) {
+                resultMessage.textContent = "全問正解！よくできました！";
+                resultImage.src = "gold.png";
+            } else if (score >= wordList.length * 0.6) {
+                resultMessage.textContent = "惜しい！あともう一歩でした！";
+                resultImage.src = "silver.png";
+            } else {
+                resultMessage.textContent = "もう少しがんばりましょう。";
+                resultImage.src = "brozen.png";
+            }
+        }
+    </script>
+</head>
+<body onload="showQuestion()">
+    <nav>
+        <a href="index.html">
+            <div class="material-icons">ホームに戻る←</div>
+        </a>
+        <h1 id="namae">全商情報処理試験</h1>
+    </nav>
+    <p id="progress"></p>
+    <div id="question"></div>
+    <div id="answerForm">
+        <select id="answer">
+            <option value="ア">ア.ストライピング</option>
+            <option value="イ">イ.グローバルIPアドレス</option>
+            <option value="ウ">ウ.スパイラルモデル</option>
+            <option value="エ">エ.MTTR</option>
+            <option value="オ">オ.ミラーリング</option>
+            <option value="カ">カ.公開鍵暗号方式</option>
+            <option value="キ">キ.プロトタイピングモデル</option>
+        </select>
+        <button onclick="judge()">OK</button>
+    </div>
+    <p id="feedback"></p>
+    <p id="resultMessage"></p>
+    <img id="resultImage" src="" alt="結果画像">
+</body>
+</html>
